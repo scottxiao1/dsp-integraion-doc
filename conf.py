@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Adxing媒体对接'
+project = u'Adxing-DSP 对接'
 copyright = u'2017, Scott'
 author = u'Scott'
 
@@ -114,7 +114,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ScottTestdoc'
+htmlhelp_basename = 'Adxing DSP integraion doc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -141,7 +141,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ScottTest.tex', u'ScottTest Documentation',
+    (master_doc, 'AdxingDSPintegraiondoc.tex', u'Adxing DSP integraion doc',
      u'Scott', 'manual'),
 ]
 
@@ -151,7 +151,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'scotttest', u'ScottTest Documentation',
+    (master_doc, 'index', u'Index Documentation',
      [author], 1)
 ]
 
@@ -162,10 +162,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ScottTest', u'ScottTest Documentation',
-     author, 'ScottTest', 'One line description of project.',
+    (master_doc, 'Adxing ', u'Adxing Documentation',
+     author, 'Adxing', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
