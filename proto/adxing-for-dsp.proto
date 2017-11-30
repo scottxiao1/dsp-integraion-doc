@@ -5,14 +5,14 @@ syntax = "proto3";
 package Adxing_For_Dsp;
 
 message BidRequest {
-
+	
 	string id = 1; 					// 请求唯一标示；例如：m83390492620425
 
 	// app信息
 	message App {
 		string id = 1;				// 应用程序id；例如：10123
 
-    string cat = 2;              // 应用程序所属行业类型
+        string cat = 2;              // 应用程序所属行业类型
 
 		string name = 3;			// 应用程序名称；例如：mygame
 
@@ -26,7 +26,7 @@ message BidRequest {
 		message Publisher {
 			string id = 1;				// 开发者id，例如:exam123
 
-      string name = 2;            // 所属开发者名称；例如：developer-exam
+            string name = 2;            // 所属开发者名称；例如：developer-exam
 		}
 
 		Publisher publisher = 7;		// 所属开发者
@@ -36,24 +36,24 @@ message BidRequest {
 	// 移动设备信息
 	message Device {
 
-			int32 devicetype = 1;			// 设备类型，1-Phone，2-Tablet；例如：1
+		int32 devicetype = 1;			// 设备类型，1-Phone，2-Tablet；例如：1
 
 	    string make = 2;				// 设备品牌(小写) 例如：apple, samsung.
 
 	    string model = 3;				// 设备型号(小写) 例如：iphone
 
-			string hwv = 4;					// 设备的硬件版本（Hardware version）；例如：“5S”，iPhone 5s的“5S”
+		string hwv = 4;					// 设备的硬件版本（Hardware version）；例如：“5S”，iPhone 5s的“5S”
 
 	    string os = 5;	 				// 操作系统，0-UNKNOWN，1-iOS，2-Android，3-WindowsPhone，例如：1
-
+	    	
 	    string osv = 6;					// 操作系统版本	例如：7.0.2
 
 	    string size = 7;	 			// 设备的屏幕分辨率 例如：1024x768
 
 	    int32 pixel_ratio = 8;			// 设备像素比例 用于广告位size缩放，千分位表示，默认1000
-
+	    	
 	    float screen_density = 9;		// 屏幕像素密度
-
+	    
 	    int32 screen_orientation = 10;	// 横竖屏 0-未知; 1-表示竖屏; 2-表示横屏, 缺省是未知，默认0
 
 	    string ua = 11;					// 浏览器用户代理，例如：Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9
@@ -71,25 +71,25 @@ message BidRequest {
 		}
 
 	    Geo geo = 13;						// 设备地理位置信息
-
+	    
 	    string ifa = 14;					// 该值为idfa，原始值，例如：e4273e31-97a9-4b29-93a8-8a99f0cea068
-
+	    
 	    string ifa_md5 = 15;				// 该值为idfa，原始值，md5加密值，例如：e4b49ad2994014a7892b92fe796b53aa
-
+	    
 	    string android_id = 16;				// 该值为android id。原始值
-
+	    
 	    string android_id_md5 = 17;			// 该值为android id。md5加密值
-
+	   
 	    string imei = 18;					// 该值为imei，原始值
-
+	    
 	    string imei_md5 = 19;				// 该值为imei，md5加密值
-
+	    
 	    string mac = 20;					// 该值为mac地址，大写去除冒号分隔符
-
+	    
 	    string mac_md5 = 21;				// 该值为mac地址，大写去除冒号分隔符。md5加密值
-
+	    
 	    string duid = 22;					// 该值为Windows Phone设备DUID，原始值
-
+	    
 	    string duid_md5 = 23;				// 该值为Windows Phone设备DUID，md5加密值
 	}
 	Device device = 3;
@@ -100,9 +100,9 @@ message BidRequest {
         int32 type = 1;					// 网络环境,0-UNKNOWN, 1-WIFI, 2-2G, 3-3G, 4-4G	例如：1
 
         int32 operator = 2;				// 设备的网络运营商 0-未知, 1-移动, 2-联通, 3-电信
-
+        
         string cellular_id = 3;			// 基站 ID
-
+        
         // 周边 wifi 热点 - array
         message Wifi {
 
@@ -110,13 +110,13 @@ message BidRequest {
 
             string rssi = 2;			//信号强度
         }
-        repeated Wifi wifis = 4;
+        repeated Wifi wifis = 4; 
 	}
-	Network network = 4;
-
+	Network network = 4; 
+		
     // 展示广告位置信息
 	message Imp {
-
+			
         int32 id = 1;				// 广告位 ID，唯一标识，从SSP系统获取
 
         int32 mtype = 2;                // 广告素材组成类型，1-素材元素（默认），2- html；当前仅支持1
@@ -196,7 +196,7 @@ message BidRequest {
     }
 	repeated Imp imp = 5;
 
-	int32 precache = 6;					// 是否为预缓存请求，默认0-正式请求(非预缓存)，1-预缓存请求
+    int32 precache = 6;                 // 是否为预缓存请求，默认0-正式请求(非预缓存)，1-预缓存请求
 
 	int32 test = 7;						// 当前请求是否是test请求，0-正式请求（默认），1-测试请求
 
@@ -205,29 +205,29 @@ message BidRequest {
 
 
 message BidResponse {
-
-	bool success = 1;					// 检索是否成功
-
+	
+	bool success = 1;					// 检索是否成功 
+	
 	string id = 2;						// 返回媒体方广告请求ID；例如：m83390492620425
 
 	string bidid = 3;					// Response id，SSP 系统生成唯一id
 
-  int32 mtype = 4;                    // 广告素材组成类型，1-素材元素（默认），2- html；同bidrequest mtype值保持相同
+    int32 mtype = 4;                    // 广告素材组成类型，1-素材元素（默认），2- html；同bidrequest mtype值保持相同
 
 	// 广告竞价对象
 	// 仅success时为required
 	message SeatBid {
-
+		
 		string id = 1;					// 跟踪竞价广告id
 
         int32 imp_id = 2;				// imp对象序列id
-
+		
 		int32 cost_type = 3;			// 计费方式 1-cpc, 2-cpm
-
+		
 		float price = 4;				// 广告出价，单位元；例如 1.23
-
+			
 		string pos_id = 5;				// 广告位 ID
-
+    
         int32 interaction_type = 6; 	// 广告交互类型 0-NO_INTERACT, 1-SURFING(打开网页), 2-DOWNLOAD(下载)
 
 		repeated string adv = 7;        // 投放广告主主域，例如：“ford.com”
@@ -239,6 +239,8 @@ message BidResponse {
         string sid = 10;                 // 广告策略id（或广告组、单元id）
 
         string adid = 11;               // 广告id（或创意id）
+
+        string ssp_adid = 12;               // SSP平台 广告id（或创意id）
 
         // 创意元素
         message CreativeElements {
@@ -261,15 +263,15 @@ message BidResponse {
 
         }
 
-        CreativeElements creative_elements = 12;		// 创意元素；广告位广告类型对应具体广告元素
+        CreativeElements creative_elements = 13;		// 创意元素；广告位广告类型对应具体广告元素
 
-        string site_url = 13;						// 推广标的物地址
+        string site_url = 14;						// 推广标的物地址
 
-    	string click_tracking_url = 14;				// 点击地址(监控)。如果site_url、click_url同时存在，点击响应地址为click_url
+    	string click_tracking_url = 15;				// 点击地址(监控)。如果site_url、click_url同时存在，点击响应地址为click_url
 
-    	repeated string imp_tracking_urls = 15;		// 曝光监控地址
+    	repeated string imp_tracking_urls = 16;		// 曝光监控地址
 	}
 	repeated SeatBid seatbid = 5;
-
-	int32 nbr = 6;				// 检索未成功原因。例如：0-Unknown Error
+	
+	int32 nbr = 6;				// 检索未成功原因
 }
