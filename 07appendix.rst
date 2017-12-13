@@ -21,7 +21,7 @@
 |                |                        |                                                       |
 |                | +1 description         | description:0-24字                                    |
 |                |                        |                                                       |
-|                | +1 image               | image:640×330,png/jpg,70kb                           |
+|                | +1 image               | image:640×330,png/jpg,70kb                            |
 |                |                        |                                                       |
 |                |                        |                                                       |
 |                |                        |                                                       |
@@ -107,7 +107,7 @@
 +----------------+------------------------+-------------------------------------------------------+
 | 13012          | 1 icon                 | icon:180x135,jpg,100kb                                |
 |                |                        |                                                       |
-|                | +1 brand namge         | brand name:0-10字                                     |
+|                | +1 brand name          | brand name:0-10字                                     |
 |                |                        |                                                       |
 |                | +1 title               | title:0-14字                                          |
 |                |                        |                                                       |
