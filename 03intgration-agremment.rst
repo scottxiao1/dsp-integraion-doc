@@ -56,6 +56,9 @@ API 所有接口均通过请求头（HEADER）中传递的TOKEN（授权令牌�
 身份认证和鉴权，系统会校验TOKEN 有效性。
 
 授权令牌（TOKEN）生成算法如下：
+token=base64(app_id+","+user_id+","+timestamp+","+signature)
+
+``说明：","逗号前无空格``
 
 .. code-block::python
     :linenos:
