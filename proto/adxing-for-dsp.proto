@@ -1,5 +1,51 @@
 // DSP <-->  Adxing Platform For DSP 接口
 // 字段详细说明请参见 API说明文档
+//
+// 文档版本: v0.2
+// 更新时间: 2017-09-04
+// 变更内容:
+//			1. 增加windows phone设备号（duid）支持
+//			2. 更改os、network type 值定义
+//			3. 增加设备的硬件版本(hwv)
+//
+// 文档版本: v0.3
+// 更新时间: 2017-09-13
+// 变更内容:
+//			1. BidRequest请求参数”test”数据类型 bool 修改为 int
+//			2. Nbr定义描述修改
+//
+// 文档版本: v0.4
+// 更新时间: 2017-10-12
+// 变更内容:
+//			1. BidRequest对象 追加’precache’参数
+//			2. Seatbid对象追加imp_id字段
+//
+// 文档版本: v0.5
+// 更新时间: 2017-11-23
+// 变更内容:
+//			无
+//
+// 文档版本: v0.6
+// 更新时间: 2017-11-23
+// 变更内容:
+//			1. Video对象，增加视频播放相关项目字段，linearity、startdelay、pos
+//
+// 文档版本: v0.7
+// 更新时间: 2017-12-01
+// 变更内容:
+// 			1. BidResponse对象调整 “success、nbr”字段文案描述修改，同时“nbr”返回时改为必填
+//			2. BidResponse 对象下增加“ssp_adid”字段
+//
+// 文档版本: v0.8
+// 更新时间: 2017-12-26
+// 变更内容:
+// 			1. BidResponse SeatBid对象追加"click_tracking_urls" 异步点击监测地址
+//
+// 文档版本: v0.9
+// 更新时间: 2017-12-28
+// 变更内容:
+// 			无
+
 syntax = "proto3";
 
 package Adxing_For_Dsp;
@@ -170,6 +216,12 @@ message BidRequest {
 
             repeated string badv = 10;  // 禁止投放广告主主域，例如：“ford.com”
 
+            int32 linearity = 11;       // 广告展现样式
+
+            int32 startdelay = 12;      // 线性贴片素材类型
+
+            int32 pos = 13;             // 广告在多个视频广告中播放先后位置序号
+
         }
         Video video = 4;
 
@@ -270,6 +322,8 @@ message BidResponse {
     	string click_tracking_url = 15;				// 点击地址(监控)。如果site_url、click_url同时存在，点击响应地址为click_url
 
     	repeated string imp_tracking_urls = 16;		// 曝光监控地址
+
+    	repeated string click_tracking_urls = 17;   // 异步点击监测地址，最多同时支持3条
 	}
 	repeated SeatBid seatbid = 5;
 	
