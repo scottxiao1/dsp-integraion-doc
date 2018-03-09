@@ -141,8 +141,9 @@
 **广告主查询**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 请求URL:
-     ``/api/advertiser/{advertiserId:[0-9]+}``
+     ``/api/advertiser/advertiserId``
 
+     ``/api/advertiser/advertiserId/Fields``
 请求方式:
      ``GET``
 
@@ -155,7 +156,7 @@
 |advertiserId   | Long           | 是    | SSP 平台上广告主ID；例如：10123                       |
 |               |                |       |                                                       |
 +---------------+----------------+-------+-------------------------------------------------------+
-| fields        | json(arry      | 是    | 需要获取的字段信息，若不传此字段则认为字段全取.       |
+| fields        | json(arry      | 否    | 需要获取的字段信息，若不传此字段则认为字段全取.       |
 |               |                |       |                                                       |
 |               | of string)     |       | advertiserId,status,advertiserName,industryId,siteUrl,|
 |               |                |       |                                                       |
@@ -487,3 +488,513 @@
         	  ]
       	 }
     	 }
+
+合作方报表API
+-----------------------------------------
+合作方报表API可以实现查询合作平台花费小时报和日报
+
+**创意查询**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+请求URL:
+	``/api/report/cooperator``
+
+请求方式:
+	``POST``
+
+请求字段:
+
++---------------+----------------+-------+-------------------------------------------------------+
+| 参数名称      | 类型           | 必须  | 说明                                                  |
++===============+================+=======+=======================================================+
+|startdate      | String         | 是    | 查询的开始时间                                        |
++---------------+----------------+-------+-------------------------------------------------------+
+|enddate        | String         | 是    | 查询的结束时间                                        |
++---------------+----------------+-------+-------------------------------------------------------+
+
+返回字段:
+
++---------------+----------------+-------+-------------------------------------------------------+
+| 参数名称      | 类型           | 必须  | 说明                                                  |
++===============+================+=======+=======================================================+
+|key            | String         | 是    | 时间                                                  |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|req_number     | Int            | 是    | 请求数                                                |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|imps           | Int            | 是    | 展示数                                                |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|clicks         | Int            | 是    | 点击数                                                |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|fill_rate      | String         | 是    | 填充率                                                |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|ctr            | String         | 是    | 点击率                                                |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|cpm            | String         | 是    | 千次曝光成本                                          |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|cpc            | String         | 是    | 每次点击成本                                          |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+|cost           | String         | 是    | 花费                                                  |
+|               |                |       |                                                       |
++---------------+----------------+-------+-------------------------------------------------------+
+
+
+返回示例:
+
+.. code-block:: python
+    :linenos:
+
+
+    {
+        "code": 0,
+         "data": {
+            "20171113": {
+                "key": "20171113",
+                "req_number": 0,
+                "imps": 0,
+                "clicks": 0,
+                "fill_rate": "0.00",
+                "ctr": "0.00",
+                "cpm": "0.00",
+                "cpc": "0.00",
+                "cost": "0.00"
+            },
+            "20171114": {
+                "key": "20171114",
+                "req_number": 0,
+                "imps": 0,
+                "clicks": 0,
+                "fill_rate": "0.00",
+                "ctr": "0.00",
+                "cpm": "0.00",
+                "cpc": "0.00",
+                "cost": "0.00"
+            }
+        },
+        "message": "成功"
+    }
+
+请求示例
+-----------------------------------------
+请求示例提供php、python两种请求平台api示例
+
+正式地址：http://ssp.adxing.com
+
+沙盒地址：http://sandbox.ssp.adxing.com
+
+**广告主新建示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    $postFields = [
+    	"advertiserName"    => "广告主名称",//dsp 系统的广告主名称
+    	"industryId"        => "106003",  //行业ID
+    	"siteUrl"           => "https://www.baidu.com/", //网站URL http://或https://开头
+        "certificationFile" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg"//营业执照文件
+    ];
+    $postFields = json_encode($postFields);
+    $url = "http://xxx.xxxx.xxxx/api/advertiser/create";//请求地址
+    $res = $curl::curl($url,$httpMethod="POST",$postFields,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+        echo "成功";
+    }else{
+        echo "失败";
+    }
+    ?>
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = 'http://xxx.xxxx.xxxx/api/advertiser/create' #请求地址
+    data = {"advertiserName": "广告主名称", #dsp 系统的广告主名称
+            "industryId": 110006, #行业ID
+            "siteUrl": "http://www.baidu.com", #网站URL http://或https://开头
+            "certificationFile": "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg" #营业执照文件
+            }
+    bearer_token = "Bearer " + token
+    headers = {
+       "Authorization": bearer_token
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(data))
+    a = r.content
+    print(a)
+
+
+**广告主编辑示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    $postFields = [
+    	"advertiserId"      => "10041",   //SSP 平台上广告主ID
+    	"advertiserName"    => "修改名称", //dsp 系统的广告主名称
+    	"industryId"        => "106003",  //行业ID
+    	"siteUrl"           => "https://www.google.com/", //网站URL http://或https://开头
+        "certificationFile" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg"//营业执照文件
+    ];
+    $postFields = json_encode($postFields);
+    $url = "http://xxx.xxxx.xxxx/api/advertiser/update"; //请求地址
+    $res = $curl::curl($url,$httpMethod="POST",$postFields,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+        echo "成功";
+    }else{
+        echo "失败";
+    }
+    ?>
+
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = 'http://xxx.xxxx.xxxx/api/advertiser/update' #请求地址
+    data = {"advertiserId": "10038", #SSP 平台上广告主ID
+            "advertiserName": "修改名称", #dsp 系统的广告主名称
+            "industryId": 110006, #行业ID
+            "siteUrl": "http://www.baidu.com", #网站URL http://或https://开头
+            "certificationFile": "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg" #营业执照文件
+            }
+    bearer_token = "Bearer " + token
+    headers = {
+       "Authorization": bearer_token
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(data))
+    a = r.content
+    print(a)
+
+
+**广告主查询示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    //广告主查询有两种方式，第一种只传ID，第二种传ID和需要的字段
+    //第一种
+    $url = "http://xxx.xxxx.xxxx/api/advertiser/AdvertiserId"; //请求地址，AdvertiserId:要查询的广告主ID，返回广告主全部信息
+    //第二种
+    $fields = "advertiserId,certificationFile,advertiserName";//需要查询的字段，查询只返回这些字段信息
+    $url = "http://xxx.xxxx.xxxx/api/advertiser/AdvertiserId".'/'.$fields; //请求地址，AdvertiserId:要查询的广告主ID
+
+    $res = $curl::curl($url,$httpMethod = "GET",$postFields = null,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+    	echo "成功";
+    }else{
+    	echo "失败";
+    }
+    ?>
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    #广告主查询有两种方式，第一种只传ID，第二种传ID和需要的字段
+    #第一种
+    url = "http://xxx.xxxx.xxxx/api/advertiser/AdvertiserId"; #请求地址，AdvertiserId:要查询的广告主ID，返回广告主全部信息
+    #第二种
+    fields = "advertiserId,certificationFile,advertiserName"; #需要查询的字段，查询只返回这些字段信息
+    url = "http://xxx.xxxx.xxxx/api/advertiser/AdvertiserId" + '/' + fields; #请求地址，AdvertiserId:要查询的广告主ID
+
+    bearer_token = "Bearer " + token
+    headers = {
+       "Authorization": bearer_token
+    }
+    r = requests.get(url, headers=headers)
+    a = r.content
+    print(a)
+
+**创意新建示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    $postFields = [
+        "advertiserId"    => "10037",     //SSP 平台上广告主ID
+        "creativeName"    => "创意名称",   //创意名称
+        "cooperatorCreativeId" => "10000",//合作平台创意ID
+        "creativeType"    => "1", //创意类型
+        "creativeElement" => [ //创意元素；广告位广告类型对应具体广告元素
+            "image" => [
+                "image_url" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg", //图片URL
+                "type" => 2, //图片类型（1.png / 2.jpg / 3.gif）
+                "size_dimension" => "330*400", //图片规格(宽*高px)
+                "size_kb" => "9" //图片大小
+            ]
+        ],
+        "clickTrackingUrl" => "https://imgsa.baidu.com/forum/w%3D580%3B/sign=731c14c36b59252da3171d0c04a0013b/4a36acaf2edda3ccd63c4ef90ae93901203f920b.jpg"  //点击地址（监控）注：如果site_url、click_url同时存在， 点击响应地址为click_url
+    ];
+    $postFields = json_encode($postFields);
+    $url = "http://xxx.xxxx.xxxx/api/creative/inventory/create"; //请求地址
+    $res = $curl::curl($url,$httpMethod="POST",$postFields,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+        echo "成功";
+    }else{
+        echo "失败";
+    }
+    ?>
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = 'http://xxx.xxxx.xxxx/api/creative/inventory/create' #请求地址
+    data = {"advertiserId": 10038, #SSP 平台上广告主ID
+            "clickTrackingUrl": "http://www.baidu.com", #点击地址（监控）注：如果site_url、click_url同时存在， 点击响应地址为click_url
+            "cooperatorCreativeId": "10000", #合作平台创意ID
+            "creativeName": "创意名称", #创意名称
+            "creativeType": 1, #创意类型
+            "creativeElement": #创意元素；广告位广告类型对应具体广告元素
+                {"image":
+                     {"type": 1, #图片类型（1.png / 2.jpg / 3.gif）
+                      "size_dimension": "180*240", #图片规格(宽*高px)
+                      "size_kb": 10, #图片大小
+                      "image_url": "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg" #图片URL
+                      }
+                 }
+            }
+    bearer_token = "Bearer " + token
+    headers = {
+        "Authorization": bearer_token
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(data))
+    a = r.content
+    print(a)
+
+**创意查询示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    $url = "http://xxx.xxxx.xxxx/api/creative/checklist/CreativeId"; //请求地址，CreativeId：SSP 平台上创意ID，多个创意ID 用逗号“,”分割。例如10012,10013
+    $res = $curl::curl($url,$httpMethod = "GET",$postFields = null,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+    	echo "成功";
+    }else{
+    	echo "失败";
+    }
+    ?>
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = 'http://xxx.xxxx.xxxx/api/creative/checklist/CreativeId' #请求地址，CreativeId：SSP 平台上创意ID，多个创意ID 用逗号“,”分割。例如10012,10013
+    bearer_token = "Bearer " + token
+    headers = {
+        "Authorization": bearer_token
+    }
+    r = requests.get(url, headers=headers)
+    a = r.content
+    print(a)
+
+**合作方报表查询示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    $curl    = new HttpCurl();
+    $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+    $user_id = "12345";	                               //your user_id
+    $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+    $timestamp = time();
+    $signature = sha1($app_id.$app_key.$timestamp);
+    $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+    $headers = ["Authorization"=>"Bearer ".$token];
+    $postFields = [
+        "startdate"=>"2017-11-13", //开始时间
+        "enddate"=>"2017-11-13"	   //结束时间
+    ];
+    $postFields = json_encode($postFields);
+    $url = "http://xxx.xxxx.xxxx/api/report/cooperator"; //请求地址
+    $res = $curl::curl($url,$httpMethod="POST",$postFields,$headers);
+    if(json_decode($res,true)["code"] == 0) {
+        echo "成功";
+    }else{
+        echo "失败";
+    }
+    ?>
+
+python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = 'http://xxx.xxxx.xxxx/api/report/cooperator'
+    data = {
+            "startdate": "2017-11-12", #开始时间
+            "enddate": "2017-11-21"    #结束时间
+            }
+    bearer_token = "Bearer " + token
+    headers = {
+        "Authorization": bearer_token
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(data))
+    a = r.content
+    print(a)
