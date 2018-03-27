@@ -44,7 +44,22 @@
 // 文档版本: v0.9
 // 更新时间: 2017-12-28
 // 变更内容:
-// 			无
+// 			1. BidRequest Imp 对象追加"pmp"对象
+//
+// 文档版本: v0.9.1
+// 更新时间: 2017-01-10
+// 变更内容:
+//          1. "bidfllor" 字段名称错误，改成 "bidfloor"
+//
+// 文档版本: v0.10
+// 更新时间: 2018-01-09
+// 变更内容:
+//          1. click_tracking_urls 类型修改为数组
+//
+// 文档版本: v0.11
+// 更新时间: 2018-02-06
+// 变更内容:
+//          1. Seatbid对象click_tracking_url字段名称变更为click_through_url
 
 syntax = "proto3";
 
@@ -245,6 +260,29 @@ message BidRequest {
         }
         Native native = 5;
 
+        // pmp私有广告（pd、pdb）对象
+        message Pmp {
+
+        	bool private_auction = 1;	// 是否私有交易
+
+        	// 私有广告交易设定对象
+        	message Deal {
+
+        		string id = 1;			// dealid
+
+        		double bidfloor = 2;	// 底价
+
+        		string wseat = 3;		// 未用
+
+        		string wadomain = 4;	// 未用
+
+        	}
+
+        	repeated Deal deals = 2;	// Deal信息，在private_auction为true时必须存在
+        }
+
+        Pmp pmp = 6;
+
     }
 	repeated Imp imp = 5;
 
@@ -319,7 +357,7 @@ message BidResponse {
 
         string site_url = 14;						// 推广标的物地址
 
-    	string click_tracking_url = 15;				// 点击地址(监控)。如果site_url、click_url同时存在，点击响应地址为click_url
+    	string click_through_url = 15;				// 同步点击监测地址 (原click_tracking_url，名称改变)
 
     	repeated string imp_tracking_urls = 16;		// 曝光监控地址
 

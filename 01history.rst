@@ -44,3 +44,16 @@
 |               |          |            | 2.创意API当中增加click_through_url，click_tracking_urls字|
 |               |          |            | 段                                                       |
 +---------------+----------+------------+----------------------------------------------------------+
+| v1.9          | Dove     | 2018.03.27 | 1.adxing-for-dsp.proto更新至v0.11,请在对接步骤下载最新版 |
+|               |          |            |                                                          |
+|               |          |            | 2.修改BidRequest下publisher中name和Device中devicetype的  |
+|               |          |            | 必选项                                                   |
+|               |          |            |                                                          |
+|               |          |            | 3.BidResponse下Seatbid中click_tracking_url替换为         |
+|               |          |            | click_through_url                                        |
+|               |          |            |                                                          |
+|               |          |            | 4.删除创意新建api中click_through_url，click_tracking_urls|
+|               |          |            |                                                          |
+|               |          |            | 5.新增广告主列表查询api                                  |
+|               |          |            |                                                          |
++---------------+----------+------------+----------------------------------------------------------+
