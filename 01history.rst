@@ -52,8 +52,6 @@
 |               |          |            | 3.BidResponse下Seatbid中click_tracking_url替换为         |
 |               |          |            | click_through_url                                        |
 |               |          |            |                                                          |
-|               |          |            | 4.删除创意新建api中click_through_url，click_tracking_urls|
-|               |          |            |                                                          |
-|               |          |            | 5.新增广告主列表查询api                                  |
+|               |          |            | 4.新增广告主列表查询api                                  |
 |               |          |            |                                                          |
 +---------------+----------+------------+----------------------------------------------------------+
