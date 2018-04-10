@@ -296,7 +296,7 @@
 
 请求示例:
 
-    http://xxx/api/advertiser?page=1&pageSize=10&fields=["advertiserId"]
+    http://xxx/api/advertiser?page=1&pageSize=10&fields=advertiserId,status
 
 
 返回字段:
@@ -354,7 +354,8 @@
         "data": {
             "list": [
                 {
-                    "advertiserId": 11
+                    "advertiserId": 11,
+                    "status": 30
                 }
             ],
             "conf": {
@@ -611,10 +612,6 @@
 |creativeIds    | String         | 是    | SSP 平台上创意ID，多个创意ID 用逗号“,”分割。最多支持  |
 |               |                |       | 200个                                                 |
 +---------------+----------------+-------+-------------------------------------------------------+
-
-请求示例:
-
-    http://xxx/api/creative/checklist?creativeIds=623,624
 
 返回字段:
 
@@ -963,6 +960,63 @@ python请求示例:
     #第二种
     fields = "advertiserId,certificationFile,advertiserName"; #需要查询的字段，查询只返回这些字段信息
     url = "http://xxx.xxxx.xxxx/api/advertiser/AdvertiserId" + '/' + fields; #请求地址，AdvertiserId:要查询的广告主ID
+
+    bearer_token = "Bearer " + token
+    headers = {
+       "Authorization": bearer_token
+    }
+    r = requests.get(url, headers=headers)
+    a = r.content
+    print(a)
+
+**广告主列表查询示例**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+php请求示例:
+
+.. code-block:: php
+    :linenos:
+
+        <?php
+        $curl    = new HttpCurl();
+        $app_id  = "c921dabf8f05e1024e8765fb6d712345";     //your app_id
+        $user_id = "12345";	                               //your user_id
+        $app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; //your app_key
+        $timestamp = time();
+        $signature = sha1($app_id.$app_key.$timestamp);
+        $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
+        $headers = ["Authorization"=>"Bearer ".$token];
+        $url = "http://xxx.xxxx.xxxx/api/advertiser?page=1&pageSize=10&fields=advertiserId,status"; //请求地址
+
+        $res = $curl::curl($url,$httpMethod = "GET",$postFields = null,$headers);
+        if(json_decode($res,true)["code"] == 0) {
+        	echo "成功";
+        }else{
+        	echo "失败";
+        }
+        ?>
+
+    python请求示例:
+
+.. code-block:: python
+    :linenos:
+
+    # -*- coding: utf-8 -*-
+
+    import requests
+    import json
+    import base64
+    import hashlib
+    import time
+
+    app_id  = "c921dabf8f05e1024e8765fb6d712345";     #your app_id
+    user_id = "12345";	                              #your user_id
+    app_key = "6BF6A168-65A0-66D8-7704-970AE9D12345"; #your app_key
+    time1 = time.time()
+    timestamp = str(int(time1))
+    signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
+    token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
+    url = "http://xxx.xxxx.xxxx/api/advertiser?page=1&pageSize=10&fields=advertiserId,status"; #请求地址
 
     bearer_token = "Bearer " + token
     headers = {
