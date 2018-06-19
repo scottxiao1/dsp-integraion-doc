@@ -782,7 +782,7 @@ php请求示例:
     $headers = ["Authorization"=>"Bearer ".$token];
     $postFields = [
     	"advertiserName"    => "广告主名称",//dsp 系统的广告主名称
-    	"industryId"        => "106003",  //行业ID
+    	"industryId"        => 106003,  //行业ID
     	"siteUrl"           => "https://www.baidu.com/", //网站URL http://或https://开头
         "certificationFile" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg"//营业执照文件
     ];
@@ -849,9 +849,9 @@ php请求示例:
     $token = base64_encode($app_id.",".$user_id.",".$timestamp.",".$signature);
     $headers = ["Authorization"=>"Bearer ".$token];
     $postFields = [
-    	"advertiserId"      => "10041",   //SSP 平台上广告主ID
+    	"advertiserId"      => 10041,   //SSP 平台上广告主ID
     	"advertiserName"    => "修改名称", //dsp 系统的广告主名称
-    	"industryId"        => "106003",  //行业ID
+    	"industryId"        => 106003,  //行业ID
     	"siteUrl"           => "https://www.google.com/", //网站URL http://或https://开头
         "certificationFile" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg"//营业执照文件
     ];
@@ -887,7 +887,7 @@ python请求示例:
     signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
     token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
     url = 'http://xxx.xxxx.xxxx/api/advertiser/update' #请求地址
-    data = {"advertiserId": "10038", #SSP 平台上广告主ID
+    data = {"advertiserId": 10038, #SSP 平台上广告主ID
             "advertiserName": "修改名称", #dsp 系统的广告主名称
             "industryId": 110006, #行业ID
             "siteUrl": "http://www.baidu.com", #网站URL http://或https://开头
@@ -996,7 +996,7 @@ php请求示例:
         }
         ?>
 
-    python请求示例:
+python请求示例:
 
 .. code-block:: python
     :linenos:
@@ -1047,13 +1047,13 @@ php请求示例:
         "advertiserId"    => "10037",     //SSP 平台上广告主ID
         "creativeName"    => "创意名称",   //创意名称
         "cooperatorCreativeId" => "10000",//合作平台创意ID
-        "creativeType"    => "1", //创意类型
+        "creativeType"    => 1, //创意类型
         "creativeElement" => [ //创意元素；广告位广告类型对应具体广告元素
             "image" => [
                 "image_url" => "https://mmptrsbox.limei.com/cdn/c-33e41c79-2b9e-494c-9f03-31ed5a5b758b.jpg", //图片URL
                 "type" => 2, //图片类型（1.png / 2.jpg / 3.gif）
                 "size_dimension" => "330*400", //图片规格(宽*高px)
-                "size_kb" => "9" //图片大小
+                "size_kb" => 9 //图片大小
             ]
         ],
         "clickTrackingUrl" => "https://imgsa.baidu.com/forum/w%3D580%3B/sign=731c14c36b59252da3171d0c04a0013b/4a36acaf2edda3ccd63c4ef90ae93901203f920b.jpg"  //点击地址（监控）注：如果site_url、click_url同时存在， 点击响应地址为click_url
@@ -1089,7 +1089,7 @@ python请求示例:
     signature = hashlib.sha1(app_id + app_key + timestamp).hexdigest()
     token = base64.b64encode(app_id + "," + user_id + "," + timestamp + "," + signature)
     url = 'http://xxx.xxxx.xxxx/api/creative/inventory/create' #请求地址
-    data = {"advertiserId": 10038, #SSP 平台上广告主ID
+    data = {"advertiserId": "10038", #SSP 平台上广告主ID
             "clickTrackingUrl": "http://www.baidu.com", #点击地址（监控）注：如果site_url、click_url同时存在， 点击响应地址为click_url
             "cooperatorCreativeId": "10000", #合作平台创意ID
             "creativeName": "创意名称", #创意名称
